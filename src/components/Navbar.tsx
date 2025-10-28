@@ -1,10 +1,12 @@
-import { motion } from "framer-motion"
+import { motion, useAnimation } from "framer-motion"
 import { useEffect, useState } from "react"
 
 const sections = ["hero", "about", "projects"]
 
 export default function Navbar() {
-    const [active, setActive] = useState("hero")
+    const [active, setActive] = useState("hero");
+    const [scrolled, setScrolled] = useState(false);
+    const controls = useAnimation();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -18,12 +20,27 @@ export default function Navbar() {
                     break
                 }
             }
+            // Detect scroll for shrink effect
+            setScrolled(scrollY > 50)
         }
 
         window.addEventListener("scroll", handleScroll)
         handleScroll()
         return () => window.removeEventListener("scroll", handleScroll)
-    }, [])
+    }, []);
+
+    // Animate navbar height and background tone
+    useEffect(() => {
+        controls.start({
+            opacity: 1, 
+            y: 0,
+            height: scrolled ? "60px" : "80px",
+            backgroundColor: scrolled
+                ? "rgba(17, 17, 17, 0.9)"
+                : "rgba(17, 17, 17, 0.5)",
+            transition: { duration: 0.3, ease: "easeInOut" },
+        })
+    }, [scrolled, controls])
 
     const scrollToSection = (id: string) => {
         const section = document.getElementById(id)
@@ -32,8 +49,9 @@ export default function Navbar() {
 
     return (
         <motion.nav
+        animate={controls}
         initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
+        // animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
         className="fixed top-0 left-0 w-full z-50 bg-gray-950/70 backdrop-blur-md border-b border-gray-800"
         >
