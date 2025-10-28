@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import FloatingParticles from "../components/FloatingParticles";
 import About from "../components/About";
 import Projects from "../components/Projects";
+import Contact from "../components/Contact";
 
 export default function Home() {
     const ref = useRef(null);
@@ -78,6 +79,8 @@ export default function Home() {
         <About />
         <SectionSeperator/>
         <Projects/>
+        <SectionSeperator/>
+        <Contact/>
         </div>
     );
 }
