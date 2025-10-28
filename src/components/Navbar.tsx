@@ -1,7 +1,7 @@
 import { motion, useAnimation } from "framer-motion"
 import { useEffect, useState } from "react"
 
-const sections = ["hero", "about", "projects"]
+const sections = ["hero", "about", "projects", "contact"]
 
 export default function Navbar() {
     const [active, setActive] = useState("hero");
@@ -60,7 +60,7 @@ export default function Navbar() {
             onClick={() => scrollToSection("hero")}
             className="text-2xl font-bold text-white cursor-pointer hover:text-blue-400 transition-colors"
             >
-            @Jeff.codes
+            @jeff.codes
             </h1>
 
             <ul className="flex gap-8 text-gray-300 font-medium">
