@@ -1,28 +1,41 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { useEffect } from "react"
+import ProjectCard from "./ProjectCard";
+import openFarmImage from '../assets/background/virus.svg';
+import creatorsHubImage from '../assets/background/wave1.svg';
+import contractIqImage from '../assets/background/wave2.svg';
 
 const projects = [
     {
         title: "Open Farm",
-        description: "AI-powered plant diagnosis platform for smallholder farmers.",
-        link: "#",
+        description: "AI-powered crop diagnosis and farmer community platform.",
+        image: openFarmImage,
+        techStack: ["Next.js", "Node.js", "Drizzle ORM"],
+        link: "https://openfarm.io",
     },
     {
         title: "Creators Hub",
-        description: "A SaaS toolkit for creators to manage and monetize digital content.",
-        link: "#",
+        description: "A SaaS platform for content creators to manage workflows and collaborations.",
+        image: creatorsHubImage,
+        link: "https://creatorshub.app",
+        techStack: ["React", "Supabase", "Framer Motion"],
     },
     {
-        title: "Contract Vision",
-        description: "AI contract reviewer for freelancers and small businesses.",
-        link: "#",
+        title: "ContractIQ",
+        description: "An AI contract reviewer for freelancers and SMBs.",
+        image: contractIqImage,
+        link: "https://contractiq.app",
+        techStack: ["React", "Supabase", "Framer Motion"],
     },
 ]
 
 export default function Projects() {
     const controls = useAnimation()
-    const [ref, inView] = useInView({ threshold: 0.2 })
+    const [ref, inView] = useInView({ threshold: 0.2 });
+    // const projectCard = useParallaxReveal({ offset: 40, duration: 0.6 });
+    // const subText = useParallaxReveal({ offset: 20, delay: 0.3 });
 
     useEffect(() => {
         if (inView) {
@@ -39,31 +52,8 @@ export default function Projects() {
         },
     }
 
-    const cardVariants = {
-        hidden: { opacity: 0, y: 40 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.6, ease: "easeOut" },
-        },
-    }
-
-    const variants = {
-        active: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.6, ease: "easeOut" },
-        },
-        inactive: {
-            opacity: 0, y: 40
-        }
-    }
-
     return (
-        <section
-        id="projects"
-        className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-950 text-white flex flex-col items-center justify-center px-6 py-24"
-        >
+        <section id="projects" className="relative py-32 px-8 bg-[#0b0b0b] text-white">
         <motion.div
             ref={ref}
             variants={containerVariants}
@@ -71,28 +61,28 @@ export default function Projects() {
             animate={controls}
             className="max-w-5xl w-full"
         >
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-12">
-            Featured Projects
-            </h2>
+            <motion.h2
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl md:text-5xl font-bold text-center bg-gradient-to-t from-sky-500 to-indigo-600 bg-clip-text text-transparent mb-16"
+            >
+                Featured Projects
+            </motion.h2>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
-                <motion.a
-                key={index}
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                variants={cardVariants}
-                className="block bg-gray-800/60 backdrop-blur-lg border border-gray-700 rounded-2xl p-6 hover:scale-[1.03] hover:border-blue-400 transition-transform duration-300"
+            <div 
+            // className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl"
+            className="flex flex-wrap justify-center gap-12 max-w-6xl"
+            >
+            {projects.map((project, i) => (
+                <motion.div
+                key={project.title}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.2, duration: 0.7 }}
                 >
-                <h3 className="text-2xl font-semibold mb-3 text-blue-400">
-                    {project.title}
-                </h3>
-                <p className="text-gray-300 mb-4">{project.description}</p>
-                <span className="text-sm text-blue-400 hover:underline">
-                    View Project →
-                </span>
-                </motion.a>
+                    <ProjectCard {...project} />
+                </motion.div>
             ))}
             </div>
         </motion.div>
