@@ -1,93 +1,87 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
-import { Link } from "react-router-dom";
-import FloatingParticles from "../components/FloatingParticles";
+import { useEffect,  useState } from "react";
 import About from "../components/About";
 import Projects from "../components/Projects";
 import Contact from "../components/Contact";
+import { Helmet } from "react-helmet-async";
+import Hero from "../components/Hero";
+import { useScroll, useTransform } from "framer-motion";
 
 export default function Home() {
-    const ref = useRef(null);
-    const { scrollY } = useScroll({
-        target: ref,
-        offset: ["start start", "end start"],
-    });
-    
-    // Create depth by moving layers at different speeds
-    const y1 = useTransform(scrollY, [0, 500], [0, 100]);
-    const y2 = useTransform(scrollY, [0, 500], [0, 50]);
+    const [scrolled, setScrolled] = useState(false);
+    const { scrollYProgress } = useScroll();
+
+  // Interpolate background colors based on scroll progress
+  const background = useTransform(
+    scrollYProgress,
+    [0, 0.5, 1],
+    [
+      "linear-gradient(135deg, #0f172a, #1e293b)", // top
+      "linear-gradient(135deg, #1e293b, #334155)", // middle
+      "linear-gradient(135deg, #334155, #475569)" // bottom
+    ]
+  );
+
+    useEffect(() => {
+        const handleScroll = () => setScrolled(window.scrollY > 50);
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     return (
-        <div ref={ref} className="relative min-h-screen overflow-hidden text-center">
-        {/* Hero section */}
-        <section 
-        id="hero"
-        className="min-h-screen flex flex-col justify-center items-center"
-        >
-            <FloatingParticles count={25} />
-            {/* Parallax layers and hero content */}
-            <motion.div
-                style={{ y: y1 }}
-                className="absolute inset-0 bg-gradient-to-b from-[#0b0b0f] via-[#0b0b0f] to-[#050508] z-0"
-            />
+        <>
+        <Helmet>
+        <title>Humbe Jeffrey — Software Engineer</title>
+        <meta name="description" content="Portfolio of Humbe Jeffrey, a Software Engineer specializing in modern web apps, TypeScript, and AI-powered solutions." />
+        <meta name="keywords" content="Humbe Jeffrey, software engineer, React developer, TypeScript, frontend, portfolio" />
+        <meta property="og:title" content="Humbe Jeffrey — Software Engineer" />
+        <meta property="og:description" content="Modern portfolio showcasing Humbe Jeffrey’s work and projects in software engineering and web development." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://humbejeffrey.dev" />
+        <meta property="og:image" content="https://humbejeffrey.dev/og-image.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Humbe Jeffrey — Software Engineer" />
+        <meta name="twitter:description" content="Modern portfolio showcasing Humbe Jeffrey’s work and projects in software engineering and web development." />
+        <meta name="twitter:image" content="https://humbejeffrey.dev/og-image.jpg" />
+        <link rel="canonical" href="https://humbejeffrey.dev" />
 
-            <motion.div
-                style={{ y: y2 }}
-                className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,255,255,0.08),_transparent_70%)] blur-3xl z-0"
-            />
-
- 
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1 }}
-                className="relative z-10 px-6"
-            >
-                <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1 }}
-                    className="text-5xl md:text-6xl font-bold mb-4"
-                >
-                    <span className="text-accent">Hi, I'm</span> Humbe Jeffrey
-                </motion.h1>
-                <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3, duration: 1 }}
-                    className="text-xl md:text-2xl text-gray-400"
-                >
-                    Software Engineer • TypeScript • React • Node.js
-                </motion.h2>
-                <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6, duration: 1 }}
-                className="mt-10"
-                >
-                <Link
-                    to="/projects"
-                    className="border border-accent text-accent px-6 py-3 rounded-full hover:bg-accent hover:text-background transition-all duration-300"
-                >
-                    View My Projects
-                </Link>
-                </motion.div>
-            </motion.div>
-        </section>
-        {/* About section */}
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">{`
+          {
+            "@context": "https://schema.org/",
+            "@type": "Person",
+            "name": "Humbe Jeffrey",
+            "url": "https://humbejeffrey.dev",
+            "sameAs": [
+              "https://github.com/humbejeffrey",
+              "https://linkedin.com/in/humbejeffrey"
+            ],
+            "jobTitle": "Software Engineer",
+            "worksFor": {
+              "@type": "Organization",
+              "name": "Freelance / Open Farm"
+            },
+            "knowsAbout": ["React", "TypeScript", "Node", "AI Apps", "Web Development"],
+            "image": "https://humbejeffrey.dev/profile.jpg"
+          }
+        `}</script>
+      </Helmet>
+      
+        {/* <div className={`transition-all duration-500 ${scrolled ? "scale-[0.98] opacity-95" : "scale-100 opacity-100"}`}> */}
+        <Hero />
         <SectionSeperator/>
         <About />
         <SectionSeperator/>
         <Projects/>
         <SectionSeperator/>
         <Contact/>
-        </div>
+        {/* </div> */}
+        </>
     );
 }
 
 
 function SectionSeperator() {
     return (
-        <div className="w-1/3 h-px mx-auto my-20 bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
+        <div className="w-1/3 h-px mx-auto my-20 bg-gradient-to-r from-transparent via-accent/90 to-transparent" />
     )
 }
