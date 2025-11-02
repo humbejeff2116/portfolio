@@ -67,7 +67,7 @@ export default function Hero() {
             >
                 <motion.h1
                 {...heroText}
-                className="text-5xl md:text-7xl font-bold bg-gradient-to-t from-sky-500 to-indigo-600 bg-clip-text text-transparent"
+                className="text-6xl md:text-7xl font-bold bg-gradient-to-t from-sky-500 to-indigo-600 bg-clip-text text-transparent"
                 >
                     <span >Hi, I'm</span> Humbe Jeffrey
                 </motion.h1>
@@ -76,14 +76,20 @@ export default function Hero() {
                 {...subText}
                 className="text-xl md:text-2xl text-gray-400"
                 >
-                    Software Engineer • TypeScript • React • Node.js
+                    💻 Software Engineer.
+                    <div>
+                        I build digital experiences using code and ☕.
+                    </div> 
+                    <div>
+                        Lets collaborate.
+                    </div> 
                 </motion.h2>
 
                 <motion.div
                 {...link}
-                className="mt-10 flex space-x-6 justify-center items-center"
+                className="mt-10 flex flex-col md:flex-row justify-center"
                 >
-                    <Magnetic>
+                    <Magnetic className="flex justify-center items-center">
                     <Link
                     to="/projects" 
                     className="px-8 py-4 rounded-full bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-medium shadow-lg hover:shadow-xl transition-all">
@@ -91,14 +97,14 @@ export default function Hero() {
                     </Link>
                     </Magnetic>
                     
-                    <Magnetic>
+                    <Magnetic className=" md:ml-6 flex justify-center items-center mt-6 md:mt-0">
                     <Link
                     to="/#"
                     onClick={(e) => {
                         e.preventDefault();
                         scrollToSection('contact')
                     }} 
-                    className="px-8 py-4 rounded-full border border-gray-600 hover:border-white text-gray-200 hover:text-white font-medium transition-all">
+                    className="px-8 py-4 rounded-full border border-indigo-400 hover:border-white text-gray-200 hover:text-white font-medium transition-all">
                         Contact Me
                     </Link>
                     </Magnetic>
