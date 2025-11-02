@@ -1,6 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
-import Projects from "./pages/Projects";
 import Navbar from "./components/Navbar";
 import { ThemeTransitionOverlay } from "./components/ThemeTransitionOverlay";
 import { CustomCursor } from "./components/CustomCursor";
@@ -33,22 +32,9 @@ function App() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
               >
                 <Home />
-              </motion.div>
-            }
-          />
-          <Route
-            path="/projects"
-            element={
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -30 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-              >
-                <Projects />
               </motion.div>
             }
           />
@@ -60,7 +46,7 @@ function App() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -30 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
               >
                 <NotFound />
               </motion.div>
