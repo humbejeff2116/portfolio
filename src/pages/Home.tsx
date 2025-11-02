@@ -13,15 +13,15 @@ export default function Home() {
       <meta name="description" content="Portfolio of Humbe Jeffrey, a Software Engineer specializing in modern web apps, TypeScript, and AI-powered solutions." />
       <meta name="keywords" content="Humbe Jeffrey, software engineer, React developer, TypeScript, frontend, portfolio" />
       <meta property="og:title" content="Humbe Jeffrey — Software Engineer" />
-      <meta property="og:description" content="Modern portfolio showcasing Humbe Jeffrey’s work and projects in software engineering and web development." />
+      <meta property="og:description" content="Modern portfolio showcasing Humbe Jeffrey's work and projects in software engineering and web development." />
       <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://humbejeffrey.dev" />
-      <meta property="og:image" content="https://humbejeffrey.dev/og-image.jpg" />
+      <meta property="og:url" content="https://humbe-jeffrey.vercel.app" />
+      <meta property="og:image" content="https://humbe-jeffrey.vercel.app/og-image.jpg" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content="Humbe Jeffrey — Software Engineer" />
-      <meta name="twitter:description" content="Modern portfolio showcasing Humbe Jeffrey’s work and projects in software engineering and web development." />
-      <meta name="twitter:image" content="https://humbejeffrey.dev/og-image.jpg" />
-      <link rel="canonical" href="https://humbejeffrey.dev" />
+      <meta name="twitter:description" content="Modern portfolio showcasing Humbe Jeffrey's work and projects in software engineering and web development." />
+      <meta name="twitter:image" content="https://humbe-jeffrey.vercel.app/og-image.jpg" />
+      <link rel="canonical" href="https://humbe-jeffrey.vercel.app" />
 
       {/* JSON-LD Structured Data */}
       <script type="application/ld+json">{`
@@ -29,9 +29,9 @@ export default function Home() {
           "@context": "https://schema.org/",
           "@type": "Person",
           "name": "Humbe Jeffrey",
-          "url": "https://humbejeffrey.dev",
+          "url": "https://humbe-jeffrey.vercel.app",
           "sameAs": [
-            "https://github.com/humbejeffrey",
+            "https://github.com/humbejeff2116",
             "https://linkedin.com/in/humbejeffrey"
           ],
           "jobTitle": "Software Engineer",
@@ -40,7 +40,7 @@ export default function Home() {
             "name": "Freelance / Open Farm"
           },
           "knowsAbout": ["React", "TypeScript", "Node", "AI Apps", "Web Development"],
-          "image": "https://humbejeffrey.dev/profile.jpg"
+          "image": "https://humbe-jeffrey.vercel.app/profile.jpg"
         }
       `}</script>
     </Helmet>
