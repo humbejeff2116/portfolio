@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { useParallaxReveal } from "../hooks/useParallaxReveal";
 import Magnetic from "./Magnetic";
+import { Boxes, Send } from "lucide-react";
 
 
 
@@ -74,7 +75,7 @@ export default function Hero() {
 
                 <motion.h2
                 {...subText}
-                className="text-xl md:text-2xl text-gray-400"
+                className="mt-3 md:mt-0 text-xl md:text-2xl text-gray-400"
                 >
                     💻 Software Engineer.
                     <div>
@@ -92,7 +93,9 @@ export default function Hero() {
                     <Magnetic className="flex justify-center items-center">
                     <Link
                     to="/projects" 
-                    className="px-8 py-4 rounded-full bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-medium shadow-lg hover:shadow-xl transition-all">
+                    className="flex items-center justify-center px-8 py-4 rounded-full bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-medium shadow-lg hover:shadow-xl transition-all">
+                        
+                        <Boxes size={24} className="mr-2"/>
                         View Projects
                     </Link>
                     </Magnetic>
@@ -104,8 +107,9 @@ export default function Hero() {
                         e.preventDefault();
                         scrollToSection('contact')
                     }} 
-                    className="px-8 py-4 rounded-full border border-indigo-400 hover:border-white text-gray-200 hover:text-white font-medium transition-all">
+                    className="flex items-center justify-center px-8 py-4 rounded-full border border-indigo-400 hover:border-white text-gray-200 hover:text-white font-medium transition-all">
                         Contact Me
+                        <Send size={24} className="ml-2"/>
                     </Link>
                     </Magnetic>
                 </motion.div>
