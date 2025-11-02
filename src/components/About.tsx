@@ -35,10 +35,10 @@ export default function About() {
                 transition: { duration: 0.8, ease: "easeOut" },
             },
         }}
-        className="bg-white/0.5 backdrop-blur-sm z-20 max-w-3xl text-center px-5 py-10 rounded shadow"
+        className="bg-white/0.5 backdrop-blur-sm z-20 max-w-3xl px-5 py-10 rounded-2xl shadow-sm shadow-indigo-500"
         >
             <motion.h2
-                className="text-4xl md:text-5xl font-bold text-center bg-gradient-to-t from-sky-500 to-indigo-600 bg-clip-text text-transparent mb-16"
+                className="text-4xl md:text-5xl font-bold text-left md:text-center bg-gradient-to-t from-sky-500 to-indigo-600 bg-clip-text text-transparent mb-16"
                 {...headingText}
                 // viewport={{ once: true, amount: 0.6 }}
             >
@@ -46,7 +46,7 @@ export default function About() {
             </motion.h2>
 
             <motion.p
-                className="max-w-2xl text-gray-400 leading-relaxed text-lg"
+                className="max-w-2xl text-left md:text-center text-gray-400 leading-relaxed text-lg"
                 {...subText}
                 // viewport={{ once: true, amount: 0.6 }}
             >
