@@ -9,7 +9,7 @@ import {
 export function useParallaxReveal({ 
     offset = 50, 
     delay = 0,
-    duration = 1 
+    duration = 0.3 
 } = {}) {
     const ref = useRef(null);
     const prefersReducedMotion = useReducedMotion();
@@ -45,7 +45,7 @@ export function useParallaxReveal({
             duration: duration, 
             delay, 
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ease: "easeOut" as any 
+            ease: "easeInOut" as any 
         },
         style: { y: transformY },
         // viewport: { once: true, amount: 0.2 }

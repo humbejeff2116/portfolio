@@ -1,65 +1,20 @@
-import { AnimatePresence, motion, useAnimation, useScroll, useTransform } from "framer-motion";
-import { useInView } from "react-intersection-observer";
 import { useEffect, useRef, useState } from "react";
-import { CheckCircle, Github, Linkedin, Mail, Send, Twitter } from "lucide-react";
+import { Link } from "react-router-dom";
+import { AnimatePresence, motion,  useScroll, useTransform } from "framer-motion";
+import { CheckCircle, Send } from "lucide-react";
 import { useParallaxReveal } from "../hooks/useParallaxReveal";
 import Magnetic from "./Magnetic";
-import { Link } from "react-router-dom";
 import FloatingParticles from "./FloatingParticles";
-
-
-// import { Button } from "@/components/ui/button";
-// import { Input } from "@/components/ui/input";
-// import { Textarea } from "@/components/ui/textarea";
-
-
-const socials = [
-    {
-        href: "mailto:humbejeff2116@gmail.com",
-        label: "Email", 
-        icon: (
-            <Mail size={22} />
-        ),
-        isBlankTarget: false
-    },
-    {
-        href: "https://github.com/humbejeff2116",
-        label: "Github", 
-        icon: (
-            <Github size={22} />
-        ),
-        isBlankTarget: true
-    },
-    {
-        href: "https://linkedin.com/in/yourusername",
-        label: "LinkedIn", 
-        icon: (
-            <Linkedin size={22} />
-        ),
-        isBlankTarget: true
-    },
-    {
-        href: "https://twitter.com/yourusername",
-        label: "Twitter", 
-        icon: (
-            <Twitter size={22} />
-        ),
-        isBlankTarget: true
-    }
-]
+import { socials } from "../data/socials.data";
 
 export default function Contact() {
     const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
     const sectionRef = useRef<HTMLDivElement>(null);
     const messageInputRef = useRef<HTMLTextAreaElement>(null);
-
-    const controls = useAnimation()
-    const [ref, inView] = useInView({ threshold: 0.3 });
     const headingText = useParallaxReveal({ offset: 40 });
     const subText = useParallaxReveal({ offset: 40, delay: 0.3 });
     
     
-
     const { scrollYProgress } = useScroll({
         target: sectionRef,
         offset: ["start end", "center center"],
@@ -69,20 +24,6 @@ export default function Contact() {
     const bgOpacity = useTransform(scrollYProgress, [0, 0.4, 1], [0, 0.6, 1]);
     const y = useTransform(scrollYProgress, [0, 1], [150, -150]);
     const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
-    // Exit reveal overlay
-    // const revealOpacity = useTransform(scrollYProgress, [0.8, 1], [0, 1]);
-    // const revealY = useTransform(scrollYProgress, [0.8, 1], [100, 0]);
-
-    useEffect(() => {
-        if (inView) {
-            controls.start("visible");
-            if (messageInputRef.current) {
-                messageInputRef.current.focus();
-            }
-             
-        }
-    }, [controls, inView]);
-
 
     useEffect(() => {
         let timer: number | undefined
@@ -107,9 +48,7 @@ export default function Contact() {
         const formData = new FormData(form);
 
         try {
-            // implement a serverless function call here
-            const res = await fetch(
-                // `https://formspree.io/f/${import.meta.env.FORMSPREE_FORM_ID}`, 
+            const res = await fetch( 
                 import.meta.env.VITE_WORKER_URL,
                 {
                 method: "POST",
@@ -135,7 +74,6 @@ export default function Contact() {
         return e.target.classList.remove('form-contains');
     }
 
-
     return (
         <>
         <footer>
@@ -146,33 +84,16 @@ export default function Contact() {
         >
         {/* Background Gradients */} 
         
-        {/* <motion.div
-        style={{ opacity: bgOpacity, y, scale }}
-        className="absolute inset-0 bg-gradient-to-tr from-transparent via-indigo-500/20 to-transparent blur-3xl pointer-events-none"
-        /> */}
         <motion.div 
         style={{ opacity: bgOpacity, y, scale }}
         className="absolute inset-0 bg-gradient-to-tr from-black via-indigo-500/20 to-transparent" 
         />
-        {/* <motion.div
-        style={{ opacity: bgOpacity, y, scale }} 
-        className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent blur-sm" 
-        /> */}
         <FloatingParticles count={25} />
-
         <motion.div
-            ref={ref}
-            animate={controls}
-            initial="hidden"
-            variants={{
-                hidden: { opacity: 0, y: 50 },
-                visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: { duration: 0.8, ease: "easeOut" },
-                },
-            }}
-            className="relative text-center max-w-2xl"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="relative text-center max-w-2xl"
         >
             <motion.h2
             {...headingText}
@@ -194,13 +115,9 @@ export default function Contact() {
             onSubmit={handleSubmit}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
+            transition={{ delay: 0.4, duration: 0.3, ease: "easeInOut" }}
             className="space-y-6 text-left"
             >
-                {/*TODO... using shadcn components later */}
-                {/* <Input name="name" placeholder="Your name" required />
-                <Input name="email" type="email" placeholder="Your email" required />
-                <Textarea name="message" placeholder="Your message" required /> */}
             <div>
                 <input
                 onBlur={toggleBlur} 
@@ -264,7 +181,7 @@ export default function Contact() {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 30 }}
-                    transition={{ duration: 0.4 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
                     className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-zinc-800 border border-zinc-700 rounded-xl shadow-lg px-6 py-4 flex items-center gap-3 text-brand-400"
                 >
                     <CheckCircle className="w-5 h-5 text-brand-400" />
@@ -278,7 +195,7 @@ export default function Contact() {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 30 }}
-                    transition={{ duration: 0.4 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
                     className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-red-800 border border-red-700 rounded-xl shadow-lg px-6 py-4 flex items-center gap-3 text-red-300"
                 >
                     <span>Something went wrong. Please try again later.</span>
@@ -288,13 +205,14 @@ export default function Contact() {
 
 
             <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.6 }}
             className="flex space-x-6 justify-center items-center mt-16 mb-16"
             >
-            {socials.map((social) => 
-                <SocialLink key={social.href} {...social}/>
+            {socials.map((social, i) => 
+                <SocialLink 
+                key={social.href} 
+                {...social}
+                index={i}
+                />
             )}
             </motion.div>
         </motion.div>
@@ -302,19 +220,13 @@ export default function Contact() {
         <motion.p
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 0.8 }}
+        transition={{ delay: 1, duration: 0.3, ease: "easeInOut" }}
         className="relative text-gray-600 text-sm"
         >
             © {new Date().getFullYear()} @jeff.codes{<sup className="mx-0.2">TM</sup>}. Built with ❤️ using React & Framer Motion
         </motion.p>
         </section>
-        
         </footer>
-        {/* Exit reveal overlay */}
-        {/* <motion.div
-            style={{ opacity: revealOpacity, y: revealY }}
-            className="absolute inset-0  backdrop-blur-3xl z-20 pointer-events-none"
-        /> */}
         </>
     )
 }
@@ -324,6 +236,7 @@ interface SocialLinkProps {
     label: string;
     icon: React.ReactElement
     isBlankTarget?: boolean
+    index: number
 
 }
 
@@ -331,11 +244,17 @@ function SocialLink({
     href,
     label,
     icon,
-    isBlankTarget
+    isBlankTarget,
+    index
 }: SocialLinkProps) {
     return (
         <Magnetic>
-            <div className="p-3 rounded-full bg-gray-800 hover:bg-blue-500 transition-all duration-300">
+            <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 + index * 0.1, ease: "easeInOut" }}
+            className="p-3 rounded-full bg-gray-800 hover:bg-blue-500 transition-all duration-300"
+            >
             <Link
                 to={href}
                 target={isBlankTarget ? "_blank" : undefined}
@@ -344,7 +263,7 @@ function SocialLink({
             >
                 {icon}
             </Link>
-            </div>
+            </motion.div>
         </Magnetic>
     )
 }

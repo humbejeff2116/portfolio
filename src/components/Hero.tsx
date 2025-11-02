@@ -63,7 +63,7 @@ export default function Hero() {
             <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, ease: "easeOut" }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
                 className="relative z-10 px-6"
             >
                 <motion.h1
@@ -75,7 +75,7 @@ export default function Hero() {
 
                 <motion.h2
                 {...subText}
-                className="mt-3 md:mt-0 text-xl md:text-2xl text-gray-400"
+                className="mt-4 md:mt-5 text-xl md:text-2xl text-gray-400"
                 >
                     💻 Software Engineer.
                     <div>
@@ -92,7 +92,11 @@ export default function Hero() {
                 >
                     <Magnetic className="flex justify-center items-center">
                     <Link
-                    to="/projects" 
+                    to="/#" 
+                    onClick={(e) => {
+                        e.preventDefault();
+                        scrollToSection('projects')
+                    }}
                     className="flex items-center justify-center px-8 py-4 rounded-full bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-medium shadow-lg hover:shadow-xl transition-all">
                         
                         <Boxes size={24} className="mr-2"/>

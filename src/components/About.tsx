@@ -1,41 +1,25 @@
-import { motion, useAnimation } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
+import { motion } from "framer-motion";
 import { useParallaxReveal } from "../hooks/useParallaxReveal";
+import FloatingParticles from "./FloatingParticles";
 
 
 const skills = ["TypeScript", "Golang", "React", "Next.js", "Node.js"];
 
 export default function About() {
-    const controls = useAnimation();
-    const [ref, inView] = useInView({ threshold: 0.3 });
     const headingText = useParallaxReveal({ offset: 30 });
     const subText = useParallaxReveal({ offset: 40, delay: 0.3 });
-
-    useEffect(() => {
-        if (inView) {
-            controls.start("visible")
-        }
-    }, [controls, inView])
 
     return (
         <section
         id="about"
         className="relative  min-h-screen flex items-center justify-center text-white px-6 md:px-12"
         >
+        <FloatingParticles count={25} />
         <motion.div
-        ref={ref}
-        animate={controls}
-        initial="hidden"
-        variants={{
-            hidden: { opacity: 0, y: 50 },
-            visible: {
-                opacity: 1,
-                y: 0,
-                transition: { duration: 0.8, ease: "easeOut" },
-            },
-        }}
-        className="bg-white/0.5 backdrop-blur-sm z-20 max-w-3xl px-5 py-10 rounded-2xl shadow-sm shadow-indigo-500"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="bg-white/0.5 backdrop-blur-lg md:backdrop-blur-sm z-20 max-w-3xl px-5 py-10 rounded-2xl shadow-sm shadow-indigo-500"
         >
             <motion.h2
                 className="text-4xl md:text-5xl font-bold text-left md:text-center bg-gradient-to-t from-sky-500 to-indigo-600 bg-clip-text text-transparent mb-16"
@@ -86,7 +70,7 @@ function Skill({
         <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.3 + index * 0.1, ease: "easeOut" }}
+        transition={{ duration: 0.6, delay: 0.3 + index * 0.1, ease: "easeInOut" }}
         // viewport={{ once: true }}
         className="px-6 py-3  rounded-xl bg-white/5 border border-white/10 hover:border-accent hover:text-accent transition-all duration-300"
         >

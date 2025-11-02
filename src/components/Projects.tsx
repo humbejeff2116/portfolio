@@ -1,41 +1,19 @@
-import { motion, useAnimation } from "framer-motion"
-import { useInView } from "react-intersection-observer"
-import { useEffect } from "react"
+import { motion } from "framer-motion"
 import ProjectCard from "./ProjectCard";
-
 import FloatingParticles from "./FloatingParticles";
 import { projects } from "../data/projects.data";
 
 
 export default function Projects() {
-    const controls = useAnimation()
-    const [ref, inView] = useInView({ threshold: 0.2 });
-
-    useEffect(() => {
-        if (inView) {
-            controls.start("visible")
-        }
-    }, [controls, inView])
-
-    const containerVariants = {
-        hidden: {},
-        visible: {
-            transition: {
-                staggerChildren: 0.2,
-            },
-        },
-    }
-
     return (
         <section id="projects" className=" relative py-32 px-8 bg-gradient-to-b from-gray-950 to-black text-white">
         <FloatingParticles count={25} />
         <motion.div
-            ref={ref}
-            variants={containerVariants}
-            initial="hidden"
-            animate={controls}
             className="max-w-5xl w-full"
             style={{ opacity: 0.9 }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ staggerChildren: 0.2, ease: "easeInOut" }}
         >
             <motion.h2
             initial={{ opacity: 0, y: 40 }}
@@ -52,7 +30,7 @@ export default function Projects() {
                 key={project.title}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.2, duration: 0.7 }}
+                transition={{ delay: i * 0.2, duration: 0.3 }}
                 >
                     <ProjectCard {...project} />
                 </motion.div>
