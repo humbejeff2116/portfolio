@@ -50,6 +50,48 @@ h1, h2, h3 {
   --color-primary: #2563eb;
   /* --bg: #0b0b0f; */
   --fg-light: #f5f5f5;
+
+
+
+
+
+
+
+
+  /* Brand */
+  --brand-primary: 220 90% 56%; /* violet/blue accent */
+  --brand-secondary: 280 70% 60%; /* purple hue */
+
+  /* Backgrounds */
+  --bg-main: 240 10% 3%;
+  --bg-surface: 240 6% 8%;
+  --bg-elevated: 240 5% 12%;
+
+  /* Text */
+  --text-primary: 0 0% 98%;
+  --text-secondary: 0 0% 80%;
+  --text-muted: 0 0% 60%;
+
+  /* Borders */
+  --border-subtle: 240 4% 20%;
+  --border-strong: 240 4% 30%;
+
+  /* Gradients */
+  --gradient-hero: linear-gradient(135deg, hsl(var(--brand-primary)), hsl(var(--brand-secondary)));
+  --gradient-bg: radial-gradient(circle at top right, hsl(var(--brand-primary) / 0.15), transparent 70%);
+}
+
+[data-theme="light"] {
+  --bg-main: 0 0% 100%;
+  --bg-surface: 0 0% 98%;
+  --bg-elevated: 0 0% 95%;
+
+  --text-primary: 240 10% 5%;
+  --text-secondary: 240 5% 25%;
+  --text-muted: 240 4% 45%;
+
+  --border-subtle: 240 5% 85%;
+  --border-strong: 240 5% 75%;
 }
 
 /* Smooth universal transitions */

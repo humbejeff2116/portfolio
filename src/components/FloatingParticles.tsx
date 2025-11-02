@@ -10,11 +10,12 @@ interface Particle {
     delay: number;
 }
 
+interface FloatingParticlesProps {
+   count?: number  
+}
 export default function FloatingParticles({ 
     count = 20 
-}: { 
-    count?: number 
-}) {
+}: FloatingParticlesProps) {
     const [particles, setParticles] = useState<Particle[]>([]);
 
     useEffect(() => {
@@ -22,7 +23,7 @@ export default function FloatingParticles({
             id: i,
             x: Math.random() * 100, // vw
             y: Math.random() * 100, // vh
-            size: Math.random() * 3 + 1,
+            size: Math.random() * 4 + 2,
             duration: Math.random() * 10 + 8,
             delay: Math.random() * 5,
         }));
@@ -36,8 +37,10 @@ export default function FloatingParticles({
             key={p.id}
             initial={{ opacity: 0 }}
             animate={{
+                x: [p.x + "%", p.x - 10 + "%", p.x + "%"],
                 y: [p.y + "%", p.y - 10 + "%", p.y + "%"],
-                opacity: [0, 0.6, 0],
+                // opacity: [0, 0.6, 0],
+                opacity: [0.4, 0.8, 0.4],
             }}
             transition={{
                 duration: p.duration,
@@ -52,6 +55,7 @@ export default function FloatingParticles({
                 left: `${p.x}vw`,
                 top: `${p.y}vh`,
                 opacity: 0.4,
+                filter: "blur(1px)",
             }}
             />
         ))}

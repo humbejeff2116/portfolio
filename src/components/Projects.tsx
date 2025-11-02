@@ -1,45 +1,19 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { useEffect } from "react"
 import ProjectCard from "./ProjectCard";
-import openFarmImage from '../assets/background/virus.svg';
-import creatorsHubImage from '../assets/background/wave1.svg';
-import contractIqImage from '../assets/background/wave2.svg';
 
-const projects = [
-    {
-        title: "Open Farm",
-        description: "AI-powered crop diagnosis and farmer community platform.",
-        image: openFarmImage,
-        techStack: ["Next.js", "Node.js", "Drizzle ORM"],
-        link: "https://openfarm.io",
-    },
-    {
-        title: "Creators Hub",
-        description: "A SaaS platform for content creators to manage workflows and collaborations.",
-        image: creatorsHubImage,
-        link: "https://creatorshub.app",
-        techStack: ["React", "Supabase", "Framer Motion"],
-    },
-    {
-        title: "ContractIQ",
-        description: "An AI contract reviewer for freelancers and SMBs.",
-        image: contractIqImage,
-        link: "https://contractiq.app",
-        techStack: ["React", "Supabase", "Framer Motion"],
-    },
-]
+import FloatingParticles from "./FloatingParticles";
+import { projects } from "../data/projects.data";
+
 
 export default function Projects() {
     const controls = useAnimation()
     const [ref, inView] = useInView({ threshold: 0.2 });
-    // const projectCard = useParallaxReveal({ offset: 40, duration: 0.6 });
-    // const subText = useParallaxReveal({ offset: 20, delay: 0.3 });
 
     useEffect(() => {
         if (inView) {
-        controls.start("visible")
+            controls.start("visible")
         }
     }, [controls, inView])
 
@@ -53,13 +27,15 @@ export default function Projects() {
     }
 
     return (
-        <section id="projects" className="relative py-32 px-8 bg-[#0b0b0b] text-white">
+        <section id="projects" className=" relative py-32 px-8 bg-gradient-to-b from-gray-950 to-black text-white">
+        <FloatingParticles count={25} />
         <motion.div
             ref={ref}
             variants={containerVariants}
             initial="hidden"
             animate={controls}
             className="max-w-5xl w-full"
+            style={{ opacity: 0.9 }}
         >
             <motion.h2
             initial={{ opacity: 0, y: 40 }}
@@ -70,10 +46,7 @@ export default function Projects() {
                 Featured Projects
             </motion.h2>
 
-            <div 
-            // className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl"
-            className="flex flex-wrap justify-center gap-12 max-w-6xl"
-            >
+            <div className="flex flex-wrap justify-center gap-12 max-w-6xl">
             {projects.map((project, i) => (
                 <motion.div
                 key={project.title}

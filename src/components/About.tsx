@@ -3,12 +3,14 @@ import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import { useParallaxReveal } from "../hooks/useParallaxReveal";
 
+
+const skills = ["TypeScript", "Golang", "React", "Next.js", "Node.js"];
+
 export default function About() {
     const controls = useAnimation();
     const [ref, inView] = useInView({ threshold: 0.3 });
     const headingText = useParallaxReveal({ offset: 30 });
     const subText = useParallaxReveal({ offset: 40, delay: 0.3 });
-    const skillSet = useParallaxReveal({ offset: 40, delay: 0.6 });
 
     useEffect(() => {
         if (inView) {
@@ -48,29 +50,47 @@ export default function About() {
                 {...subText}
                 // viewport={{ once: true, amount: 0.6 }}
             >
-                I’m <span className="bg-gradient-to-r from-sky-500 to-indigo-600 bg-clip-text text-transparent font-semibold">Humbe Jeffrey</span>, a software engineer who
-                loves building elegant, performant, and user-focused applications.
+                I'm <span className="bg-gradient-to-t from-sky-500 to-indigo-600 bg-clip-text text-transparent">Humbe Jeffrey</span>, a software engineer who
+                loves building scalable, high performing, and secured user-focused applications.
                 My work spans across full-stack development using
-                <span className="text-accent"> React</span>, <span className="text-accent">TypeScript</span>, and <span className="text-accent">Node.js</span>.
-                I enjoy turning complex ideas with scalable engineering practices into delightful, smooth user experiences
-                — always with attention to detail and clean design.
+                <span className="text-accent"> TypeScript</span>,<span className="text-accent"> Golang</span>, <span className="text-accent">React</span>, and <span className="text-accent">Node.js</span>.
+                I enjoy turning complex ideas, using software engineering best practices, into delightful and great user experiences, always paying attention to details and clean design in the proccess.
             </motion.p>
 
             <motion.div
-                className="mt-10 flex gap-4 flex-wrap justify-center"
-                {...skillSet}
-                // viewport={{ once: true, amount: 0.5 }}
+                className="mt-10 flex gap-6 flex-wrap justify-center"
             >
-                {["React", "TypeScript", "Node.js", "Tailwind", "Framer Motion"].map((tech) => (
-                <span
-                    key={tech}
-                    className="px-4 py-2 border border-gray-700 rounded-full text-gray-400 hover:border-accent hover:text-accent transition-all duration-300"
-                >
-                    {tech}
-                </span>
-                ))}
+            {skills.map((skill, i) => 
+                <Skill 
+                key={skill}
+                skill={skill}
+                index={i}  
+                />
+            )}
             </motion.div>
         </motion.div>
         </section>
-    );
+    )
+}
+
+interface SkillProps {
+    index: number
+    skill: string
+}
+
+function Skill({
+    skill,
+    index
+}: SkillProps) {
+    return (
+        <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.3 + index * 0.1, ease: "easeOut" }}
+        // viewport={{ once: true }}
+        className="px-6 py-3  rounded-xl bg-white/5 border border-white/10 hover:border-accent hover:text-accent transition-all duration-300"
+        >
+            <p className="text-gray-400 font-medium">{skill}</p>
+        </motion.div>
+    )
 }

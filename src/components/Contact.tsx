@@ -1,30 +1,164 @@
-import { motion, useAnimation } from "framer-motion";
+import { AnimatePresence, motion, useAnimation, useScroll, useTransform } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
-import { Github, Linkedin, Mail } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { CheckCircle, Github, Linkedin, Mail, Send, Twitter } from "lucide-react";
 import { useParallaxReveal } from "../hooks/useParallaxReveal";
+import Magnetic from "./Magnetic";
+import { Link } from "react-router-dom";
+import FloatingParticles from "./FloatingParticles";
+
+
+// import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
+// import { Textarea } from "@/components/ui/textarea";
+
+
+const socials = [
+    {
+        href: "mailto:humbejeff2116@gmail.com",
+        label: "Email", 
+        icon: (
+            <Mail size={22} />
+        ),
+        isBlankTarget: false
+    },
+    {
+        href: "https://github.com/humbejeff2116",
+        label: "Github", 
+        icon: (
+            <Github size={22} />
+        ),
+        isBlankTarget: true
+    },
+    {
+        href: "https://linkedin.com/in/yourusername",
+        label: "LinkedIn", 
+        icon: (
+            <Linkedin size={22} />
+        ),
+        isBlankTarget: true
+    },
+    {
+        href: "https://twitter.com/yourusername",
+        label: "Twitter", 
+        icon: (
+            <Twitter size={22} />
+        ),
+        isBlankTarget: true
+    }
+]
 
 export default function Contact() {
+    const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+    const sectionRef = useRef<HTMLDivElement>(null);
+    const messageInputRef = useRef<HTMLTextAreaElement>(null);
+
     const controls = useAnimation()
     const [ref, inView] = useInView({ threshold: 0.3 });
     const headingText = useParallaxReveal({ offset: 40 });
     const subText = useParallaxReveal({ offset: 40, delay: 0.3 });
+    
+    
+
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start end", "center center"],
+    });
+
+    // Smooth fade-in and upward parallax motion
+    const bgOpacity = useTransform(scrollYProgress, [0, 0.4, 1], [0, 0.6, 1]);
+    const y = useTransform(scrollYProgress, [0, 1], [150, -150]);
+    const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
+    // Exit reveal overlay
+    // const revealOpacity = useTransform(scrollYProgress, [0.8, 1], [0, 1]);
+    // const revealY = useTransform(scrollYProgress, [0.8, 1], [100, 0]);
 
     useEffect(() => {
         if (inView) {
-            controls.start("visible")
+            controls.start("visible");
+            if (messageInputRef.current) {
+                messageInputRef.current.focus();
+            }
+             
         }
-    }, [controls, inView])
+    }, [controls, inView]);
+
+
+    useEffect(() => {
+        let timer: number | undefined
+
+        if (status !== "idle") {
+            timer = setTimeout(() => setStatus("idle"), 7000);
+             
+        }
+
+        return () => {
+            if (timer) {
+                clearTimeout(timer);
+            }
+        }
+    }, [status]);
+
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setStatus("sending");
+        const form = e.currentTarget;
+        const formData = new FormData(form);
+
+        try {
+            // implement a serverless function call here
+            const res = await fetch(
+                // `https://formspree.io/f/${import.meta.env.FORMSPREE_FORM_ID}`, 
+                import.meta.env.VITE_WORKER_URL,
+                {
+                method: "POST",
+                body: formData,
+            });
+
+            if (res.ok) {
+                setStatus("sent");
+                form.reset();
+                setTimeout(() => setStatus("idle"), 4000); // reset after toast fades out
+            } else {
+                setStatus("error");
+            }
+        } catch {
+            setStatus("error");
+        }
+    };
+
+    const toggleBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.value.length > 0) {
+         return e.target.classList.add('form-contains');
+        }
+        return e.target.classList.remove('form-contains');
+    }
+
 
     return (
+        <>
         <footer>
         <section
+        ref={sectionRef}
         id="contact"
-        className="relative w-full z-10 min-h-[60vh] bg-gradient-to-b from-gray-950 to-black text-gray-300 flex flex-col items-center justify-center px-6 py-24 md:px-20 overflow-hidden"
-        // className="relative w-full text-gray-300 py-10 px-6 md:px-20 overflow-hidden"
+        className="relative py-32 px-6 md:px-12 flex flex-col items-center text-center overflow-hidden"
         >
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-neutral-950 to-neutral-900/70" />
-        <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent blur-sm" />
+        {/* Background Gradients */} 
+        
+        {/* <motion.div
+        style={{ opacity: bgOpacity, y, scale }}
+        className="absolute inset-0 bg-gradient-to-tr from-transparent via-indigo-500/20 to-transparent blur-3xl pointer-events-none"
+        /> */}
+        <motion.div 
+        style={{ opacity: bgOpacity, y, scale }}
+        className="absolute inset-0 bg-gradient-to-tr from-black via-indigo-500/20 to-transparent" 
+        />
+        {/* <motion.div
+        style={{ opacity: bgOpacity, y, scale }} 
+        className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent blur-sm" 
+        /> */}
+        <FloatingParticles count={25} />
 
         <motion.div
             ref={ref}
@@ -41,13 +175,10 @@ export default function Contact() {
             className="relative text-center max-w-2xl"
         >
             <motion.h2
-            // initial={{ opacity: 0, y: 40 }}
-            // whileInView={{ opacity: 1, y: 0 }}
-            // transition={{ duration: 0.6 }}
             {...headingText}
             className="text-4xl md:text-5xl font-bold text-center bg-gradient-to-t from-sky-500 to-indigo-600 bg-clip-text text-transparent mb-16"
             >
-                Get in Touch
+                Let's Connect
             </motion.h2>
             
             <motion.p
@@ -59,44 +190,161 @@ export default function Contact() {
                 opportunities to collaborate. Let's build something great together.
             </motion.p>
 
-            <div className="flex justify-center gap-6">
-            <a
-                href="mailto:youremail@example.com"
-                className="p-3 rounded-full bg-gray-800 hover:bg-blue-500 transition-all duration-300"
-                aria-label="Email"
+            <motion.form
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            className="space-y-6 text-left"
             >
-                <Mail size={22} />
-            </a>
-            <a
-                href="https://github.com/yourusername"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 rounded-full bg-gray-800 hover:bg-blue-500 transition-all duration-300"
-                aria-label="GitHub"
-            >
-                <Github size={22} />
-            </a>
-            <a
-                href="https://linkedin.com/in/yourusername"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 rounded-full bg-gray-800 hover:bg-blue-500 transition-all duration-300"
-                aria-label="LinkedIn"
-            >
-                <Linkedin size={22} />
-            </a>
+                {/*TODO... using shadcn components later */}
+                {/* <Input name="name" placeholder="Your name" required />
+                <Input name="email" type="email" placeholder="Your email" required />
+                <Textarea name="message" placeholder="Your message" required /> */}
+            <div>
+                <input
+                onBlur={toggleBlur} 
+                title="Name"
+                type="text"
+                name="name"
+                placeholder="Your name"
+                required
+                className="inset-10 w-full px-4 py-3 rounded-xl bg-gray-950 border border-zinc-700 focus:outline-none focus:border-brand-500 transition-all"
+                />
             </div>
+            <div>
+                <input
+                title="Email Address"
+                type="email"
+                name="email"
+                placeholder="Yourmail@mail.com"
+                required
+                className="w-full px-4 py-3 rounded-xl bg-gray-950 border border-zinc-700 focus:outline-none focus:border-brand-500 transition-all"
+                />
+            </div>
+            <div>
+                <textarea
+                ref={messageInputRef}
+                title="Message"
+                name="message"
+                placeholder="Your message..."
+                rows={5}
+                required
+                className="w-full px-4 py-3 rounded-xl bg-gray-950 border border-zinc-700 focus:outline-none focus:border-brand-500 transition-all"
+                />
+            </div>
+            <Magnetic>
+                <button
+                    type="submit"
+                    disabled={status === "sending"}
+                    className=" cursor-pointer flex items-center justify-center gap-2 w-full px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-sky-600 text-white transition-colors font-medium"
+                >
+                {status === "sending" ? (
+                    <>
+                        <motion.div
+                        className="w-5 h-5 border-2 border-t-transparent border-white rounded-full"
+                        animate={{ rotate: 360 }}
+                        transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
+                        />
+                        Sending...
+                    </>
+                ) : (
+                    <>
+                        Send Message <Send className="w-4 h-4" />
+                    </>
+                )}
+                </button>
+            </Magnetic>
+            </motion.form>
+
+            {/* Animated success toast */}
+            <AnimatePresence>
+            {status === "sent" && (
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 30 }}
+                    transition={{ duration: 0.4 }}
+                    className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-zinc-800 border border-zinc-700 rounded-xl shadow-lg px-6 py-4 flex items-center gap-3 text-brand-400"
+                >
+                    <CheckCircle className="w-5 h-5 text-brand-400" />
+                    <span>Your message has been sent successfully!</span>
+                </motion.div>
+            )}
+            </AnimatePresence>
+            <AnimatePresence>
+            {status === "error" && (
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 30 }}
+                    transition={{ duration: 0.4 }}
+                    className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-red-800 border border-red-700 rounded-xl shadow-lg px-6 py-4 flex items-center gap-3 text-red-300"
+                >
+                    <span>Something went wrong. Please try again later.</span>
+                </motion.div>
+            )}
+            </AnimatePresence>
+
+
+            <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.6 }}
+            className="flex space-x-6 justify-center items-center mt-16 mb-16"
+            >
+            {socials.map((social) => 
+                <SocialLink key={social.href} {...social}/>
+            )}
+            </motion.div>
         </motion.div>
 
         <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 0.8 }}
-            className="relative mt-16 text-gray-600 text-sm"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1, duration: 0.8 }}
+        className="relative text-gray-600 text-sm"
         >
-            © {new Date().getFullYear()} @jeff.codes — Crafted with ❤️ and React.js
+            © {new Date().getFullYear()} @jeff.codes{<sup className="mx-0.2">TM</sup>}. Built with ❤️ using React & Framer Motion
         </motion.p>
         </section>
+        
         </footer>
+        {/* Exit reveal overlay */}
+        {/* <motion.div
+            style={{ opacity: revealOpacity, y: revealY }}
+            className="absolute inset-0  backdrop-blur-3xl z-20 pointer-events-none"
+        /> */}
+        </>
+    )
+}
+
+interface SocialLinkProps {
+    href: string;
+    label: string;
+    icon: React.ReactElement
+    isBlankTarget?: boolean
+
+}
+
+function SocialLink({
+    href,
+    label,
+    icon,
+    isBlankTarget
+}: SocialLinkProps) {
+    return (
+        <Magnetic>
+            <div className="p-3 rounded-full bg-gray-800 hover:bg-blue-500 transition-all duration-300">
+            <Link
+                to={href}
+                target={isBlankTarget ? "_blank" : undefined}
+                rel="noopener noreferrer"
+                aria-label={label}
+            >
+                {icon}
+            </Link>
+            </div>
+        </Magnetic>
     )
 }

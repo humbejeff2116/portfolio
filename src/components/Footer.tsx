@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Github, Linkedin, Mail } from "lucide-react";
 
+// TODO... remove this no longer used
 export default function Footer() {
     return (
         <motion.footer
