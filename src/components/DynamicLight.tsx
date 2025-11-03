@@ -1,4 +1,3 @@
-// src/components/ui/DynamicLight.tsx
 import React, { useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 
@@ -44,7 +43,7 @@ const DynamicLight: React.FC = () => {
             transition={{ duration: 0.5, ease: "easeOut" }}
         />
         </motion.div>
-    );
-};
+    )
+}
 
 export default DynamicLight;

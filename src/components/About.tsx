@@ -22,7 +22,7 @@ export default function About() {
         className="bg-white/0.5 backdrop-blur-lg md:backdrop-blur-sm z-20 max-w-3xl px-5 py-10 rounded-2xl shadow-sm shadow-indigo-500"
         >
             <motion.h2
-                className="text-4xl md:text-5xl font-bold text-left md:text-center bg-gradient-to-t from-sky-500 to-indigo-600 bg-clip-text text-transparent mb-16"
+                className="text-4xl md:text-5xl font-bold text-left md:text-center py-2 bg-gradient-to-t from-sky-500 to-indigo-600 bg-clip-text text-transparent mb-16"
                 {...headingText}
                 // viewport={{ once: true, amount: 0.6 }}
             >
@@ -41,7 +41,7 @@ export default function About() {
                 I enjoy turning complex ideas, using software engineering best practices, into delightful and great user experiences, always paying attention to details and clean design in the proccess.
             </motion.p>
 
-            <motion.div
+            <div
                 className="mt-10 flex gap-6 flex-wrap justify-center"
             >
             {skills.map((skill, i) => 
@@ -51,7 +51,7 @@ export default function About() {
                 index={i}  
                 />
             )}
-            </motion.div>
+            </div>
         </motion.div>
         </section>
     )
@@ -72,9 +72,9 @@ function Skill({
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3 + index * 0.1, ease: "easeInOut" }}
         // viewport={{ once: true }}
-        className="px-6 py-3  rounded-xl bg-white/5 border border-white/10 hover:border-accent hover:text-accent transition-all duration-300"
+        className="px-6 py-3 text-gray-400 font-medium rounded-xl bg-white/5 border border-white/10 hover:border-indigo-400 hover:text-indigo-400 transition-all duration-300"
         >
-            <p className="text-gray-400 font-medium">{skill}</p>
+            <p >{skill}</p>
         </motion.div>
     )
 }

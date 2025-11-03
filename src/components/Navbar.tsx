@@ -1,9 +1,15 @@
-import { AnimatePresence, motion, useAnimation, useScroll, useTransform } from "framer-motion"
-import { useEffect, useState } from "react"
-import { ThemeToggle } from "./ThemeToggle";
-import { Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { 
+    AnimatePresence, 
+    motion, 
+    useAnimation, 
+    useScroll, 
+    useTransform 
+} from "framer-motion";
+import { Menu, X } from "lucide-react";
 import Magnetic from "./Magnetic";
+import { ThemeToggle } from "./ThemeToggle";
 import { useParallaxReveal } from "../hooks/useParallaxReveal";
 
 const sections = ["home", "about", "projects", "contact"];
@@ -12,12 +18,10 @@ export default function Navbar() {
     const [active, setActive] = useState(sections[0]);
     const [scrolled, setScrolled] = useState(false);
     const [hide, setHide] = useState(false);
-    const [open, setOpen] = useState(false);
-    const location = useLocation();
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const controls = useAnimation();
-    const navigate = useNavigate();
     const { scrollY } = useScroll();
-    const logo = useParallaxReveal({ offset: -20, delay: 0.3 });
+
     // Background transition: transparent → brand tint → solid dark
     const backgroundColor = useTransform(
         scrollY,
@@ -86,31 +90,7 @@ export default function Navbar() {
         className="transition-all fixed top-0 left-0 w-full z-50 bg-gray-950/70 backdrop-blur-md border-b border-gray-800"
         >
         <div className="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
-            <motion.h1
-            {...logo}
-            onClick={() => {
-                if (location.pathname !== '/') {
-                    navigate('/');
-                } else {
-                    scrollToSection("home");
-                }
-            }}
-            className="text-2xl font-bold text-white cursor-pointer transition-colors"
-            >
-                <Magnetic>
-                <span className="bg-gradient-to-r from-indigo-400 to-sky-500 bg-clip-text text-transparent">
-                {"<"}@jeff
-                </span>{"."}
-                <span className="hover:bg-gradient-to-r to-indigo-400 from-sky-500 bg-clip-text hover:text-transparent">
-                codes
-                </span>
-                <span className="bg-gradient-to-r from-indigo-400 to-sky-500 bg-clip-text text-transparent">
-                    {" />"}
-                </span>
-                </Magnetic>
-                
-                {/* <sup className="text-sm font-normal ml-1">TM</sup> */}
-            </motion.h1>
+            <Logo scrollToSection={scrollToSection} />
 
             <ul className=" hidden md:flex items-center gap-8 text-gray-300 font-medium">
             {sections.map((section) => 
@@ -121,28 +101,82 @@ export default function Navbar() {
             )}
             <ThemeToggle />
             </ul>
-            {/* Mobile Menu Button */}
-            <div className="md:hidden">
-                <ThemeToggle />
-                <motion.button
-                type="button"
-                aria-label="Open Menu"
-                whileTap={{ scale: 0.9 }}
-                className="p-2.5 rounded-full bg-zinc-700 hover:bg-zinc-800 cursor-pointer ml-3 text-gray-300 hover:text-white transition-colors"
-                onClick={() => setOpen(!open)}
-                >
-                {open ? <X size={24} /> : <Menu size={24} />}
-                </motion.button>
-            </div>
+
+            <MobileMenuButton 
+            open={mobileMenuOpen} 
+            setOpen={setMobileMenuOpen}            
+            />
             
-            {/* Mobile Menu Overlay */}
             <MobileMenuOverlay 
-            open={open} 
+            open={mobileMenuOpen} 
             scrollToSection={scrollToSection} 
             active={active}
             />
         </div>
         </motion.nav>
+    )
+}
+
+interface LogoProps {
+   scrollToSection: (id: string) => void
+}
+
+function Logo({
+    scrollToSection
+}: LogoProps ) {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const logo = useParallaxReveal({ offset: -20, delay: 0.3 });
+    
+    return (
+        <motion.h1
+        {...logo}
+        onClick={() => {
+            if (location.pathname !== '/') {
+                navigate('/');
+            } else {
+                scrollToSection("home");
+            }
+        }}
+        className="text-2xl font-bold text-white cursor-pointer transition-colors"
+        >
+            <Magnetic>
+            <span className="bg-gradient-to-r from-indigo-400 to-sky-500 bg-clip-text text-transparent">
+            {"<"}@jeff
+            </span>{"."}
+            <span className="hover:bg-gradient-to-r to-indigo-400 from-sky-500 bg-clip-text hover:text-transparent">
+            codes
+            </span>
+            <span className="bg-gradient-to-r from-indigo-400 to-sky-500 bg-clip-text text-transparent">
+                {" />"}
+            </span>
+            </Magnetic>
+        </motion.h1>
+    )
+}
+
+interface MobileMenuButtonProps {
+    open: boolean
+   setOpen: (value: React.SetStateAction<boolean>) => void
+}
+
+function MobileMenuButton({
+   open,
+   setOpen 
+}: MobileMenuButtonProps) {
+    return (
+        <div className="md:hidden">
+            <ThemeToggle />
+            <motion.button
+            type="button"
+            aria-label="Open Menu"
+            whileTap={{ scale: 0.9 }}
+            className="p-2.5 rounded-full bg-zinc-700 hover:bg-zinc-800 cursor-pointer ml-3 text-gray-300 hover:text-white transition-colors"
+            onClick={() => setOpen(!open)}
+            >
+            {open ? <X size={24} /> : <Menu size={24} />}
+            </motion.button>
+        </div>
     )
 }
 
@@ -206,7 +240,7 @@ function MobileMenuOverlay({
         <AnimatePresence>
         {open && (
             <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}

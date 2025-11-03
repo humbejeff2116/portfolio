@@ -4,14 +4,13 @@ import Navbar from "./components/Navbar";
 import { ThemeTransitionOverlay } from "./components/ThemeTransitionOverlay";
 import { CustomCursor } from "./components/CustomCursor";
 import { AnimatePresence, motion } from "framer-motion";
-// import PageTransitionOverlay from "./components/PageTransitionOverlay";
 import ScrollProgressBar from "./components/ScrollProgressBar";
 import DynamicLight from "./components/DynamicLight";
 import { useSmoothScroll } from "./hooks/useSmoothScroll";
 import { SmoothScroll } from "./components/SmoothScroll";
 import { ScrollToTopButton } from "./components/ScrollToTopButton";
-import './App.css';
 import NotFound from "./pages/NotFound";
+import './App.css';
 
 function App() {
   const location = useLocation();

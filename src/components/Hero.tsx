@@ -1,10 +1,10 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import FloatingParticles from "./FloatingParticles";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { useParallaxReveal } from "../hooks/useParallaxReveal";
-import Magnetic from "./Magnetic";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Boxes, Send } from "lucide-react";
+import Magnetic from "./Magnetic";
+import FloatingParticles from "./FloatingParticles";
+import { useParallaxReveal } from "../hooks/useParallaxReveal";
 
 
 
@@ -68,7 +68,7 @@ export default function Hero() {
             >
                 <motion.h1
                 {...heroText}
-                className="text-6xl md:text-7xl font-bold bg-gradient-to-t from-sky-500 to-indigo-600 bg-clip-text text-transparent"
+                className="text-6xl md:text-7xl font-bold bg-gradient-to-t from-sky-500 to-indigo-600 py-2 bg-clip-text text-transparent"
                 >
                     <span >Hi, I'm</span> Humbe Jeffrey
                 </motion.h1>

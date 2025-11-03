@@ -34,13 +34,13 @@ export function ScrollToTopButton() {
             duration: 0.3,
             ease: "easeOut",
         }}
-        className="cursor-pointer  p-3 rounded-full bg-gradient-to-r from-sky-500 to-indigo-600  backdrop-blur-md border border-gray-700 hover:bg-gray-500 transition-all duration-300"
+        className="hover:bg-zinc-800 cursor-pointer p-3 rounded-full backdrop-blur-md border border-indigo-400 transition-all duration-300"
         >
             <motion.div
                 animate={{ y: [0, -5, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
             >
-                <ArrowUp className="w-5 h-5" />
+                <ArrowUp className="w-5 h-5 text-indigo-400" />
             </motion.div>
         </motion.button>
         </Magnetic>

@@ -97,7 +97,7 @@ export default function Contact() {
         >
             <motion.h2
             {...headingText}
-            className="text-4xl md:text-5xl font-bold text-center bg-gradient-to-t from-sky-500 to-indigo-600 bg-clip-text text-transparent mb-16"
+            className="text-4xl md:text-5xl font-bold text-center py-2 bg-gradient-to-t from-sky-500 to-indigo-600 bg-clip-text text-transparent mb-16"
             >
                 Let's Connect
             </motion.h2>
@@ -220,7 +220,7 @@ export default function Contact() {
         <motion.p
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 0.3, ease: "easeInOut" }}
+        transition={{ delay: 0.6, duration: 0.3, ease: "easeInOut" }}
         className="relative text-gray-600 text-sm"
         >
             © {new Date().getFullYear()} @jeff.codes{<sup className="mx-0.2">TM</sup>}. Built with ❤️ using React & Framer Motion

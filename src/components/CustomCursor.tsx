@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
+import { useMediaQuery } from "usehooks-ts";
 
 export function CustomCursor() {
     const [isHovered, setIsHovered] = useState(false);
@@ -10,31 +11,44 @@ export function CustomCursor() {
     const springConfig = { damping: 25, stiffness: 250 };
     const x = useSpring(mouseX, springConfig);
     const y = useSpring(mouseY, springConfig);
+    const isSmallScreen = useMediaQuery('(max-width: 600px)');
+    
 
     useEffect(() => {
         const handleMove = (e: { clientX: number; clientY: number; }) => {
             mouseX.set(e.clientX);
             mouseY.set(e.clientY);
         };
-        window.addEventListener("mousemove", handleMove);
+
+        if (!isSmallScreen) {
+            window.addEventListener("mousemove", handleMove);
+        }
+
         return () => window.removeEventListener("mousemove", handleMove);
-    }, [mouseX, mouseY]);
+    }, [isSmallScreen, mouseX, mouseY]);
 
     useEffect(() => {
-        const hoverables = document.querySelectorAll("a, button, .hover-target");
+        let hoverables: NodeListOf<Element> | null;
         const handleEnter = () => setIsHovered(true);
         const handleLeave = () => setIsHovered(false);
-        hoverables.forEach((el) => {
-            el.addEventListener("mouseenter", handleEnter);
-            el.addEventListener("mouseleave", handleLeave);
-        });
-        return () => {
+
+        if (!isSmallScreen) {
+            hoverables = document.querySelectorAll("a, button, .hover-target"); 
             hoverables.forEach((el) => {
-                el.removeEventListener("mouseenter", handleEnter);
-                el.removeEventListener("mouseleave", handleLeave);
+                el.addEventListener("mouseenter", handleEnter);
+                el.addEventListener("mouseleave", handleLeave);
             });
+        }
+        
+        return () => {
+            if (hoverables) {
+                hoverables.forEach((el) => {
+                    el.removeEventListener("mouseenter", handleEnter);
+                    el.removeEventListener("mouseleave", handleLeave);
+                });
+            }
         };
-    }, []);
+    }, [isSmallScreen]);
 
     return (
         <motion.div
