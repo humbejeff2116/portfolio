@@ -9,6 +9,7 @@ export function ThemeProvider({
 }) {
     const systemPrefersDark = useMediaQuery("(prefers-color-scheme: dark)");
     const [theme, setTheme] = useState("light");
+    const [showTransition, setShowTransition] = useState(false)
 
     useEffect(() => {
         const storedTheme = localStorage.getItem("theme");
@@ -28,11 +29,23 @@ export function ThemeProvider({
         
     }, [theme]);
 
-    const toggleTheme = () =>
+    useEffect(() => {
+        return () => {
+            if (showTransition) {
+                setShowTransition(false);
+            }
+        } 
+    }, [showTransition]);
+
+    const toggleTheme = () => {
         setTheme((prev) => (prev === "light" ? "dark" : "light"));
+        if (!showTransition) {
+            setShowTransition(true);
+        }
+    }
 
     return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        <ThemeContext.Provider value={{ theme, showTransition, toggleTheme }}>
             {children}
         </ThemeContext.Provider>
     )

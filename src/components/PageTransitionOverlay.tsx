@@ -1,10 +1,10 @@
-import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
 
 export default function PageTransitionOverlay() {
-    const location = useLocation();
     const [isAnimating, setIsAnimating] = useState(false);
+    const location = useLocation();
 
     useEffect(() => {
         // Trigger animation on route change
@@ -17,16 +17,16 @@ export default function PageTransitionOverlay() {
         <AnimatePresence>
         {isAnimating && (
             <motion.div
-            key={location.pathname}
-            className="fixed inset-0 z-50 pointer-events-none overflow-hidden"
-            initial={{ scaleX: 0, originX: 0 }}
-            animate={{ scaleX: 1, originX: 0 }}
-            exit={{ scaleX: 0, originX: 1 }}
-            transition={{ duration: 0.8, ease: [0.7, 0, 0.3, 1] }}
-            style={{
-                background:
-                "linear-gradient(120deg, #0a0a0a 0%, #1b1b1b 50%, #0a0a0a 100%)",
-            }}
+                key={location.pathname}
+                className="fixed inset-0 z-50 pointer-events-none overflow-hidden"
+                initial={{ scaleX: 0, originX: 0 }}
+                animate={{ scaleX: 1, originX: 0 }}
+                exit={{ scaleX: 0, originX: 1 }}
+                transition={{ duration: 0.8, ease: [0.7, 0, 0.3, 1] }}
+                style={{
+                    background:
+                    "linear-gradient(120deg, #0a0a0a 0%, #1b1b1b 50%, #0a0a0a 100%)",
+                }}
             >
             {/* Centered logo or name */}
             <motion.h1

@@ -5,6 +5,7 @@ import {
     useSpring, 
     useTransform 
 } from "framer-motion";
+import { useIsMobile } from "./useIsMobile";
 
 export function useParallaxReveal({ 
     offset = 50, 
@@ -13,12 +14,10 @@ export function useParallaxReveal({
 } = {}) {
     const ref = useRef(null);
     const prefersReducedMotion = useReducedMotion();
-
-
     const y = useMotionValue(0);
     const smoothY = useSpring(y, { damping: 25, stiffness: 120 });
-
     const transformY = useTransform(smoothY, [-100, 100], [offset, -offset]);
+    const isSmallScreen = useIsMobile();
 
     useEffect(() => {
         const handleMouseMove = (e: { clientX: number; }) => {
@@ -27,9 +26,15 @@ export function useParallaxReveal({
             y.set(delta * 50);
         }
 
-        window.addEventListener("mousemove", handleMouseMove);
-        return () => window.removeEventListener("mousemove", handleMouseMove);
-    }, [y]);
+        if (!isSmallScreen) {
+            window.addEventListener("mousemove", handleMouseMove);
+        } else {
+            window.removeEventListener("mousemove", handleMouseMove);
+        }
+        return () => {
+            window.removeEventListener("mousemove", handleMouseMove);
+        }
+    }, [isSmallScreen, y]);
 
 
     return prefersReducedMotion ? ({
@@ -47,7 +52,7 @@ export function useParallaxReveal({
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             ease: "easeInOut" as any 
         },
-        style: { y: transformY },
+        style: isSmallScreen ? {} : { y: transformY },
         // viewport: { once: true, amount: 0.2 }
     });
 }

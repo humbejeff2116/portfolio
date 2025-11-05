@@ -1,4 +1,3 @@
-// src/hooks/useReducedMotionSafe.ts
 import { useReducedMotion } from "framer-motion";
 
 export function useReducedMotionSafe() {
@@ -8,7 +7,7 @@ export function useReducedMotionSafe() {
         transition: { duration: 0 },
         animate: {},
     }) : ({
-        transition: { duration: 0.5, ease: "easeOut" },
+        transition: { duration: 0.3, ease: "easeInOut" },
         animate: { opacity: 1, y: 0 },
     });
 }

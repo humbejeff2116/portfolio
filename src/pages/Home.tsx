@@ -1,8 +1,8 @@
+import { Helmet } from "react-helmet-async";
+import Hero from "../components/Hero";
 import About from "../components/About";
 import Projects from "../components/Projects";
 import Contact from "../components/Contact";
-import { Helmet } from "react-helmet-async";
-import Hero from "../components/Hero";
 
 export default function Home() {
 
@@ -52,7 +52,7 @@ export default function Home() {
     <SectionSeperator/>
     <Contact />
     </>
-  );
+  )
 }
 
 function SectionSeperator() {

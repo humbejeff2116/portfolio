@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion,  useScroll, useTransform } from "framer-motion";
 import { CheckCircle, Send } from "lucide-react";
-import { useParallaxReveal } from "../hooks/useParallaxReveal";
 import Magnetic from "./Magnetic";
+import { useParallaxReveal } from "../hooks/useParallaxReveal";
 import FloatingParticles from "./FloatingParticles";
+import { useIsMobile } from "../hooks/useIsMobile";
 import { socials } from "../data/socials.data";
 
 export default function Contact() {
@@ -13,24 +14,21 @@ export default function Contact() {
     const messageInputRef = useRef<HTMLTextAreaElement>(null);
     const headingText = useParallaxReveal({ offset: 40 });
     const subText = useParallaxReveal({ offset: 40, delay: 0.3 });
-    
-    
     const { scrollYProgress } = useScroll({
         target: sectionRef,
         offset: ["start end", "center center"],
     });
-
     // Smooth fade-in and upward parallax motion
     const bgOpacity = useTransform(scrollYProgress, [0, 0.4, 1], [0, 0.6, 1]);
     const y = useTransform(scrollYProgress, [0, 1], [150, -150]);
     const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
+    const isSmallScreen = useIsMobile();
 
     useEffect(() => {
-        let timer: number | undefined
+        let timer: number | undefined;
 
         if (status !== "idle") {
-            timer = setTimeout(() => setStatus("idle"), 7000);
-             
+            timer = setTimeout(() => setStatus("idle"), 7000);  
         }
 
         return () => {
@@ -48,9 +46,7 @@ export default function Contact() {
         const formData = new FormData(form);
 
         try {
-            const res = await fetch( 
-                import.meta.env.VITE_WORKER_URL,
-                {
+            const res = await fetch(import.meta.env.VITE_WORKER_URL, {
                 method: "POST",
                 body: formData,
             });
@@ -75,29 +71,28 @@ export default function Contact() {
     }
 
     return (
-        <>
         <footer>
         <section
-        ref={sectionRef}
-        id="contact"
-        className="relative py-32 px-6 md:px-12 flex flex-col items-center text-center overflow-hidden"
+            ref={sectionRef}
+            id="contact"
+            className="relative py-32 px-4 md:px-12 flex flex-col items-center text-center overflow-hidden"
         >
         {/* Background Gradients */} 
         
         <motion.div 
-        style={{ opacity: bgOpacity, y, scale }}
-        className="absolute inset-0 bg-gradient-to-tr from-black via-indigo-500/20 to-transparent" 
+            style={isSmallScreen ? {} : { opacity: bgOpacity, y, scale }}
+            className="absolute inset-0 bg-gradient-to-tr from-black via-indigo-500/20 to-transparent" 
         />
         <FloatingParticles count={25} />
         <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="relative text-center max-w-2xl"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="relative text-center max-w-2xl"
         >
             <motion.h2
-            {...headingText}
-            className="text-4xl md:text-5xl font-bold text-center py-2 bg-gradient-to-t from-sky-500 to-indigo-600 bg-clip-text text-transparent mb-16"
+                {...headingText}
+                className="text-4xl md:text-5xl font-bold text-center py-2 bg-gradient-to-t from-sky-500 to-indigo-600 bg-clip-text text-transparent mb-16"
             >
                 Let's Connect
             </motion.h2>
@@ -112,42 +107,42 @@ export default function Contact() {
             </motion.p>
 
             <motion.form
-            onSubmit={handleSubmit}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.3, ease: "easeInOut" }}
-            className="space-y-6 text-left"
+                onSubmit={handleSubmit}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.3, ease: "easeInOut" }}
+                className="space-y-6 text-left"
             >
             <div>
                 <input
-                onBlur={toggleBlur} 
-                title="Name"
-                type="text"
-                name="name"
-                placeholder="Your name"
-                required
-                className="inset-10 w-full px-4 py-3 rounded-xl bg-gray-950 border border-zinc-700 focus:outline-none focus:border-brand-500 transition-all"
+                    onBlur={toggleBlur} 
+                    title="Name"
+                    type="text"
+                    name="name"
+                    placeholder="Your name"
+                    required
+                    className="inset-10 w-full px-4 py-3 rounded-xl bg-gray-950 border border-zinc-700 focus:outline-none focus:border-brand-500 transition-all"
                 />
             </div>
             <div>
                 <input
-                title="Email Address"
-                type="email"
-                name="email"
-                placeholder="Yourmail@mail.com"
-                required
-                className="w-full px-4 py-3 rounded-xl bg-gray-950 border border-zinc-700 focus:outline-none focus:border-brand-500 transition-all"
+                    title="Email Address"
+                    type="email"
+                    name="email"
+                    placeholder="Yourmail@mail.com"
+                    required
+                    className="w-full px-4 py-3 rounded-xl bg-gray-950 border border-zinc-700 focus:outline-none focus:border-brand-500 transition-all"
                 />
             </div>
             <div>
                 <textarea
-                ref={messageInputRef}
-                title="Message"
-                name="message"
-                placeholder="Your message..."
-                rows={5}
-                required
-                className="w-full px-4 py-3 rounded-xl bg-gray-950 border border-zinc-700 focus:outline-none focus:border-brand-500 transition-all"
+                    ref={messageInputRef}
+                    title="Message"
+                    name="message"
+                    placeholder="Your message..."
+                    rows={5}
+                    required
+                    className="w-full px-4 py-3 rounded-xl bg-gray-950 border border-zinc-700 focus:outline-none focus:border-brand-500 transition-all"
                 />
             </div>
             <Magnetic>
@@ -159,9 +154,9 @@ export default function Contact() {
                 {status === "sending" ? (
                     <>
                         <motion.div
-                        className="w-5 h-5 border-2 border-t-transparent border-white rounded-full"
-                        animate={{ rotate: 360 }}
-                        transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
+                            className="w-5 h-5 border-2 border-t-transparent border-white rounded-full"
+                            animate={{ rotate: 360 }}
+                            transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
                         />
                         Sending...
                     </>
@@ -209,35 +204,33 @@ export default function Contact() {
             >
             {socials.map((social, i) => 
                 <SocialLink 
-                key={social.href} 
-                {...social}
-                index={i}
+                    key={social.href} 
+                    {...social}
+                    index={i}
                 />
             )}
             </motion.div>
         </motion.div>
 
         <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6, duration: 0.3, ease: "easeInOut" }}
-        className="relative text-gray-600 text-sm"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.3, ease: "easeInOut" }}
+            className="relative text-gray-600 text-sm"
         >
-            © {new Date().getFullYear()} @jeff.codes{<sup className="mx-0.2">TM</sup>}. Built with ❤️ using React & Framer Motion
+            © {new Date().getFullYear()} @jeff.codes | Built with ❤️ using React & Framer Motion
         </motion.p>
         </section>
         </footer>
-        </>
     )
 }
 
 interface SocialLinkProps {
     href: string;
     label: string;
-    icon: React.ReactElement
-    isBlankTarget?: boolean
-    index: number
-
+    icon: React.ReactElement;
+    isBlankTarget?: boolean;
+    index: number;
 }
 
 function SocialLink({
@@ -249,12 +242,12 @@ function SocialLink({
 }: SocialLinkProps) {
     return (
         <Magnetic>
-            <motion.div
+        <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 + index * 0.1, ease: "easeInOut" }}
             className="p-3 rounded-full bg-gray-800 hover:bg-blue-500 transition-all duration-300"
-            >
+        >
             <Link
                 to={href}
                 target={isBlankTarget ? "_blank" : undefined}
@@ -263,7 +256,7 @@ function SocialLink({
             >
                 {icon}
             </Link>
-            </motion.div>
+        </motion.div>
         </Magnetic>
     )
 }

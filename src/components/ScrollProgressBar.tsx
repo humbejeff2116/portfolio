@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { 
     motion, 
     useMotionValueEvent, 
@@ -5,19 +6,17 @@ import {
     useSpring, 
     useTransform 
 } from "framer-motion";
-import { useState } from "react";
+
 
 export default function ScrollProgressBar() {
     const [visible, setVisible] = useState(false);
     const { scrollYProgress } = useScroll();
-
     // Add spring for smoother animation
     const scaleX = useSpring(scrollYProgress, {
         stiffness: 120,
         damping: 20,
         restDelta: 0.001,
-    })
-
+    });
     // Dynamically shift colors as the user scrolls
     const background = useTransform(
         scrollYProgress,
@@ -37,20 +36,20 @@ export default function ScrollProgressBar() {
 
     return (
         <motion.div
-        className="fixed top-0 left-0 right-0 h-[3px] z-50 origin-left filter brightness-110"
-        style={{
-            scaleX: scaleX,
-            background,
-            boxShadow: visible ? 
-            "0 0 8px rgba(236, 72, 153, 0.6), 0 0 20px rgba(236, 72, 153, 0.3)"
-            : "none",
-        }}
-        animate={{
-            opacity: visible ? 1 : 0,
-        }}
-        transition={{
-            opacity: { duration: 0.4, ease: "easeOut" },
-        }}
+            className="fixed top-0 left-0 right-0 h-[3px] z-50 origin-left filter brightness-110"
+            style={{
+                scaleX: scaleX,
+                background,
+                boxShadow: visible ? 
+                "0 0 8px rgba(236, 72, 153, 0.6), 0 0 20px rgba(236, 72, 153, 0.3)"
+                : "none",
+            }}
+            animate={{
+                opacity: visible ? 1 : 0,
+            }}
+            transition={{
+                opacity: { duration: 0.4, ease: "easeOut" },
+            }}
         />
-    );
+    )
 }

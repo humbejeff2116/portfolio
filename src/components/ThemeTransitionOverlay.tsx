@@ -17,17 +17,17 @@ export function ThemeTransitionOverlay() {
         <AnimatePresence>
         {visible && (
             <motion.div
-            key="overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.7, ease: "easeInOut" }}
-            className="fixed inset-0 pointer-events-none z-[9999]"
+                key="overlay"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
+                className="fixed inset-0 pointer-events-none z-[9999]"
             >
             <motion.div
                 initial={{ scale: 0, opacity: 1 }}
                 animate={{ scale: 5, opacity: 0 }}
-                transition={{ duration: 0.7, ease: "easeInOut" }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
                 className={`absolute inset-0 rounded-full ${
                     theme === "light" ? "bg-white" : "bg-zinc-900"
                 }`}

@@ -1,15 +1,15 @@
 import { motion } from "framer-motion";
 import { Github, Linkedin, Mail } from "lucide-react";
 
-// TODO... remove this no longer used
+// TODO... remove, not in use
 export default function Footer() {
     return (
         <motion.footer
-        className="relative w-full text-gray-300 py-10 px-6 md:px-20 overflow-hidden"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
+            className="relative w-full text-gray-300 py-10 px-6 md:px-20 overflow-hidden"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
         >
         {/* Subtle gradient gloss and glow */}
         <div className="absolute inset-0 bg-gradient-to-t from-black via-neutral-950 to-neutral-900/70" />

@@ -1,6 +1,9 @@
 import { useEffect } from "react";
+import { useIsMobile } from "./useIsMobile";
 
 export function useSmoothScroll() {
+    const isSmallScreen = useIsMobile();
+    
     useEffect(() => {
         let ticking = false;
 
@@ -14,7 +17,12 @@ export function useSmoothScroll() {
             }
         }
 
-        window.addEventListener("scroll", handleScroll);
+        if (isSmallScreen) {
+            window.removeEventListener("scroll", handleScroll);
+        } else {
+            window.addEventListener("scroll", handleScroll);
+        }
+
         return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+    }, [isSmallScreen]);
 }

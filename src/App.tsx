@@ -1,15 +1,15 @@
 import { Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
 import Navbar from "./components/Navbar";
 import { ThemeTransitionOverlay } from "./components/ThemeTransitionOverlay";
 import { CustomCursor } from "./components/CustomCursor";
-import { AnimatePresence, motion } from "framer-motion";
 import ScrollProgressBar from "./components/ScrollProgressBar";
 import DynamicLight from "./components/DynamicLight";
-import { useSmoothScroll } from "./hooks/useSmoothScroll";
 import { SmoothScroll } from "./components/SmoothScroll";
 import { ScrollToTopButton } from "./components/ScrollToTopButton";
-import NotFound from "./pages/NotFound";
+import { useSmoothScroll } from "./hooks/useSmoothScroll";
 import './App.css';
 
 function App() {
@@ -61,8 +61,6 @@ function App() {
     </SmoothScroll>
  
     </div>
-  );
+  )
 }
-
 export default App;
-

@@ -1,13 +1,13 @@
 import { useEffect, type ReactNode } from "react";
 import Lenis from "lenis";
-import { useMediaQuery } from "usehooks-ts";
+import { useIsMobile } from "../hooks/useIsMobile";
 
 export function SmoothScroll({ 
     children 
 }: { 
     children: ReactNode   
 }) {
-    const isSmallScreen = useMediaQuery('(max-width: 600px)');
+    const isSmallScreen = useIsMobile();
     
     useEffect(() => {
         let lenis: Lenis;
@@ -22,7 +22,7 @@ export function SmoothScroll({
             const raf = (time: number) => {
                 lenis.raf(time);
                 requestAnimationFrame(raf);
-            };
+            }
 
             requestAnimationFrame(raf);
         }

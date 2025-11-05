@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+
 
 interface Particle {
     id: number;
@@ -13,6 +14,7 @@ interface Particle {
 interface FloatingParticlesProps {
    count?: number  
 }
+
 export default function FloatingParticles({ 
     count = 20 
 }: FloatingParticlesProps) {
@@ -34,31 +36,31 @@ export default function FloatingParticles({
         <div className="absolute inset-0 overflow-hidden z-0 pointer-events-none">
         {particles.map((p) => (
             <motion.div
-            key={p.id}
-            initial={{ opacity: 0 }}
-            animate={{
-                x: [p.x + "%", p.x - 10 + "%", p.x + "%"],
-                y: [p.y + "%", p.y - 10 + "%", p.y + "%"],
-                // opacity: [0, 0.6, 0],
-                opacity: [0.4, 0.8, 0.4],
-            }}
-            transition={{
-                duration: p.duration,
-                delay: p.delay,
-                repeat: Infinity,
-                ease: "easeInOut",
-            }}
-            className="absolute rounded-full bg-accent blur-[2px]"
-            style={{
-                width: p.size,
-                height: p.size,
-                left: `${p.x}vw`,
-                top: `${p.y}vh`,
-                opacity: 0.4,
-                filter: "blur(1px)",
-            }}
+                key={p.id}
+                initial={{ opacity: 0 }}
+                animate={{
+                    x: [p.x + "%", p.x - 10 + "%", p.x + "%"],
+                    y: [p.y + "%", p.y - 10 + "%", p.y + "%"],
+                    // opacity: [0, 0.6, 0],
+                    opacity: [0.4, 0.8, 0.4],
+                }}
+                transition={{
+                    duration: p.duration,
+                    delay: p.delay,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                }}
+                className="absolute rounded-full bg-accent blur-[2px]"
+                style={{
+                    width: p.size,
+                    height: p.size,
+                    left: `${p.x}vw`,
+                    top: `${p.y}vh`,
+                    opacity: 0.4,
+                    filter: "blur(1px)",
+                }}
             />
         ))}
         </div>
-    );
+    )
 }
