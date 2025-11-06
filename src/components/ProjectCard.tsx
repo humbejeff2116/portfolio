@@ -8,6 +8,7 @@ interface ProjectCardProps {
     description: string;
     image: string;
     link: string;
+    icon: React.ReactElement
     techStack?: string[];
 }
 
@@ -16,6 +17,7 @@ export default function ProjectCard({
     description, 
     image, 
     link,
+    icon,
     techStack 
 }: ProjectCardProps) {
     const cardRef = useRef<HTMLAnchorElement>(null);
@@ -48,11 +50,15 @@ export default function ProjectCard({
             href={link}
             target="_blank"
             rel="noopener noreferrer"
-            className="block w-full md:w-[420px] rounded-2xl overflow-hidden bg-gradient-to-br from-gray-800/60 to-gray-900/80 border border-gray-700 hover:border-gray-600 shadow-xl"
+            className="relative block w-full md:w-[420px] rounded-2xl overflow-hidden bg-gradient-to-br from-gray-800/60 to-gray-900/80 border border-gray-700 hover:border-gray-600 shadow-xl"
             style={isSmallScreen? {} : { rotateX, rotateY, perspective: 1000 }}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
         >
+            <div className="bg-gray-900 border border-gray-700 cursor-pointer transition-all duration-300 flex items-center justify-center absolute top-[1rem] right-[1rem] w-[40px] h-[40px] rounded-full shadow-xl">
+                {icon}
+            </div>
+
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10" />
             <img
                 src={image}
