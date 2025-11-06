@@ -34,7 +34,7 @@ export function ScrollToTopButton() {
                 duration: 0.3,
                 ease: "easeInOut",
             }}
-            className="bg-zinc-800 hover:bg-zinc-700 text-gray-300 cursor-pointer p-3 rounded-full backdrop-blur-md transition-all duration-300"
+            className="border border-gray-800 bg-black-800 hover:bg-gray-900 text-gray-300 cursor-pointer p-3 rounded-full backdrop-blur-md transition-all duration-300"
         >
             <motion.div
                 animate={{ y: [0, -5, 0] }}
