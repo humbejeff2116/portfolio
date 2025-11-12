@@ -7,7 +7,7 @@ import { useParallaxReveal } from "../hooks/useParallaxReveal";
 import FloatingParticles from "./FloatingParticles";
 import { useIsMobile } from "../hooks/useIsMobile";
 import { socials } from "../data/socials.data";
-import { MyImage } from "./About";
+// import { MyImage } from "./About";
 
 export default function Contact() {
     const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
