@@ -239,7 +239,7 @@ export default function Contact() {
                 </path>
             </svg>
         </div>
-        <MyImage />
+        {/* <MyImage /> */}
         </section>
         </footer>
     )
