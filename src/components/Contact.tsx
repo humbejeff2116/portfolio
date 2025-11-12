@@ -7,6 +7,7 @@ import { useParallaxReveal } from "../hooks/useParallaxReveal";
 import FloatingParticles from "./FloatingParticles";
 import { useIsMobile } from "../hooks/useIsMobile";
 import { socials } from "../data/socials.data";
+import { MyImage } from "./About";
 
 export default function Contact() {
     const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
@@ -215,7 +216,7 @@ export default function Contact() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.3, ease: "easeInOut" }}
-            className="relative text-gray-600 text-sm"
+            className="relative text-gray-600 text-sm z-1"
         >
             © {new Date().getFullYear()} @jeff.codes | Built with ❤️ using React & Framer Motion
         </motion.p>
@@ -238,6 +239,7 @@ export default function Contact() {
                 </path>
             </svg>
         </div>
+        <MyImage />
         </section>
         </footer>
     )
